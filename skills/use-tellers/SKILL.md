@@ -11,16 +11,8 @@ Tellers.ai is a video creation platform. The `tellers` CLI lets you upload media
 
 ### 1. Install the CLI
 
-Requires [Rust](https://rustup.rs/) and `openapi-generator`:
-
 ```bash
-brew install openapi-generator  # macOS
-git clone https://github.com/tellers-ai/tellers-cli
-cd tellers-cli
-scripts/generate_api.sh         # generate API client from OpenAPI spec
-cargo build --release
-# Binary: ./target/release/tellers
-# Optionally: cp target/release/tellers /usr/local/bin/tellers
+brew tap tellers-ai/tellers && brew install tellers
 ```
 
 ### 2. Get an API key
