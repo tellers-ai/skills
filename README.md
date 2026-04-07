@@ -27,7 +27,7 @@ zip -r ../../use-tellers.skill .
 # produces: use-tellers.skill (ZIP containing use-tellers/SKILL.md)
 ```
 
-## Publishing on ClaWHub
+## Publishing on ClawHub
 
 1. Package the skill as described above.
 2. Go to [clawhub.ai](https://clawhub.ai) and sign in.
