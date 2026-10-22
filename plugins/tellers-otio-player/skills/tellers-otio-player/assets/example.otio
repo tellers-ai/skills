@@ -1,0 +1,361 @@
+{
+  "OTIO_SCHEMA": "Timeline.1",
+  "name": "example",
+  "metadata": {
+    "tellers_aspect_ratio": "16_9",
+    "tellers.ai": {
+      "textStyles": {
+        "fill": "display:flex;flex-direction:column;align-items:center;justify-content:flex-end;width:100%;height:100%;padding-bottom:80px;box-sizing:border-box",
+        "subtitle": "font-family:sans-serif;font-weight:700;font-size:56px;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.85)",
+        "title": "font-family:sans-serif;font-weight:800;font-size:120px;color:#fff;text-shadow:0 4px 16px rgba(0,0,0,.85)",
+        "accent": "color:#ffd400"
+      }
+    }
+  },
+  "tracks": {
+    "OTIO_SCHEMA": "Stack.1",
+    "children": [
+      {
+        "OTIO_SCHEMA": "Track.1",
+        "name": "Music",
+        "kind": "audio",
+        "children": [
+          {
+            "OTIO_SCHEMA": "Clip.2",
+            "name": "music",
+            "source_range": {
+              "OTIO_SCHEMA": "TimeRange.1",
+              "start_time": {
+                "OTIO_SCHEMA": "RationalTime.1",
+                "rate": 1,
+                "value": 0
+              },
+              "duration": {
+                "OTIO_SCHEMA": "RationalTime.1",
+                "rate": 1,
+                "value": 10
+              }
+            },
+            "media_references": {
+              "DEFAULT_MEDIA": {
+                "OTIO_SCHEMA": "ExternalReference.1",
+                "name": "DEFAULT_MEDIA",
+                "target_url": "media/music.mp3"
+              }
+            },
+            "active_media_reference_key": "DEFAULT_MEDIA",
+            "effects": [
+              {
+                "OTIO_SCHEMA": "Effect.1",
+                "name": "",
+                "effect_name": "Resolve Effect",
+                "metadata": {
+                  "Resolve_OTIO": {
+                    "Effect Name": "Fairlight Clip Volume and Fades",
+                    "Name": "Fairlight Clip Volume and Fades",
+                    "Enabled": true,
+                    "Type": 2,
+                    "Parameters": [
+                      {
+                        "Parameter ID": "volume",
+                        "Parameter Value": -12
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "OTIO_SCHEMA": "Track.1",
+        "name": "Footage sound",
+        "kind": "audio",
+        "children": [
+          {
+            "OTIO_SCHEMA": "Clip.2",
+            "name": "big buck bunny (remote)",
+            "source_range": {
+              "OTIO_SCHEMA": "TimeRange.1",
+              "start_time": {
+                "OTIO_SCHEMA": "RationalTime.1",
+                "rate": 1,
+                "value": 30
+              },
+              "duration": {
+                "OTIO_SCHEMA": "RationalTime.1",
+                "rate": 1,
+                "value": 6
+              }
+            },
+            "media_references": {
+              "DEFAULT_MEDIA": {
+                "OTIO_SCHEMA": "ExternalReference.1",
+                "name": "DEFAULT_MEDIA",
+                "target_url": "https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps_480x270_600k.mp4"
+              }
+            },
+            "active_media_reference_key": "DEFAULT_MEDIA",
+            "effects": []
+          },
+          {
+            "OTIO_SCHEMA": "Clip.2",
+            "name": "local clip",
+            "source_range": {
+              "OTIO_SCHEMA": "TimeRange.1",
+              "start_time": {
+                "OTIO_SCHEMA": "RationalTime.1",
+                "rate": 1,
+                "value": 0
+              },
+              "duration": {
+                "OTIO_SCHEMA": "RationalTime.1",
+                "rate": 1,
+                "value": 4
+              }
+            },
+            "media_references": {
+              "DEFAULT_MEDIA": {
+                "OTIO_SCHEMA": "ExternalReference.1",
+                "name": "DEFAULT_MEDIA",
+                "target_url": "media/clip.mp4"
+              }
+            },
+            "active_media_reference_key": "DEFAULT_MEDIA",
+            "effects": []
+          }
+        ]
+      },
+      {
+        "OTIO_SCHEMA": "Track.1",
+        "name": "Footage",
+        "kind": "video",
+        "children": [
+          {
+            "OTIO_SCHEMA": "Clip.2",
+            "name": "big buck bunny (remote)",
+            "source_range": {
+              "OTIO_SCHEMA": "TimeRange.1",
+              "start_time": {
+                "OTIO_SCHEMA": "RationalTime.1",
+                "rate": 1,
+                "value": 30
+              },
+              "duration": {
+                "OTIO_SCHEMA": "RationalTime.1",
+                "rate": 1,
+                "value": 6
+              }
+            },
+            "media_references": {
+              "DEFAULT_MEDIA": {
+                "OTIO_SCHEMA": "ExternalReference.1",
+                "name": "DEFAULT_MEDIA",
+                "target_url": "https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps_480x270_600k.mp4"
+              }
+            },
+            "active_media_reference_key": "DEFAULT_MEDIA",
+            "effects": []
+          },
+          {
+            "OTIO_SCHEMA": "Clip.2",
+            "name": "local clip",
+            "source_range": {
+              "OTIO_SCHEMA": "TimeRange.1",
+              "start_time": {
+                "OTIO_SCHEMA": "RationalTime.1",
+                "rate": 1,
+                "value": 0
+              },
+              "duration": {
+                "OTIO_SCHEMA": "RationalTime.1",
+                "rate": 1,
+                "value": 4
+              }
+            },
+            "media_references": {
+              "DEFAULT_MEDIA": {
+                "OTIO_SCHEMA": "ExternalReference.1",
+                "name": "DEFAULT_MEDIA",
+                "target_url": "media/clip.mp4"
+              }
+            },
+            "active_media_reference_key": "DEFAULT_MEDIA",
+            "effects": []
+          }
+        ]
+      },
+      {
+        "OTIO_SCHEMA": "Track.1",
+        "name": "Logo",
+        "kind": "video",
+        "children": [
+          {
+            "OTIO_SCHEMA": "Clip.2",
+            "name": "logo",
+            "source_range": {
+              "OTIO_SCHEMA": "TimeRange.1",
+              "start_time": {
+                "OTIO_SCHEMA": "RationalTime.1",
+                "rate": 1,
+                "value": 0
+              },
+              "duration": {
+                "OTIO_SCHEMA": "RationalTime.1",
+                "rate": 1,
+                "value": 10
+              }
+            },
+            "media_references": {
+              "DEFAULT_MEDIA": {
+                "OTIO_SCHEMA": "ExternalReference.1",
+                "name": "DEFAULT_MEDIA",
+                "target_url": "media/logo.png"
+              }
+            },
+            "active_media_reference_key": "DEFAULT_MEDIA",
+            "effects": [
+              {
+                "OTIO_SCHEMA": "Effect.1",
+                "name": "",
+                "effect_name": "Resolve Effect",
+                "metadata": {
+                  "Resolve_OTIO": {
+                    "Effect Name": "Transform",
+                    "Name": "Transform",
+                    "Enabled": true,
+                    "Type": 2,
+                    "Parameters": [
+                      {
+                        "Parameter ID": "transformationZoomX",
+                        "Parameter Value": 0.15
+                      },
+                      {
+                        "Parameter ID": "transformationZoomY",
+                        "Parameter Value": 0.15
+                      },
+                      {
+                        "Parameter ID": "transformationPan",
+                        "Parameter Value": 0.4
+                      },
+                      {
+                        "Parameter ID": "transformationTilt",
+                        "Parameter Value": -0.36
+                      },
+                      {
+                        "Parameter ID": "transformationRotationAngle",
+                        "Parameter Value": 0
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "OTIO_SCHEMA": "Track.1",
+        "name": "Titles",
+        "kind": "video",
+        "children": [
+          {
+            "OTIO_SCHEMA": "Clip.2",
+            "name": "title",
+            "source_range": {
+              "OTIO_SCHEMA": "TimeRange.1",
+              "start_time": {
+                "OTIO_SCHEMA": "RationalTime.1",
+                "rate": 1,
+                "value": 0
+              },
+              "duration": {
+                "OTIO_SCHEMA": "RationalTime.1",
+                "rate": 1,
+                "value": 3
+              }
+            },
+            "media_references": {
+              "DEFAULT_MEDIA": {
+                "OTIO_SCHEMA": "GeneratorReference.1",
+                "name": "Text",
+                "generator_kind": "Rich",
+                "parameters": {
+                  "Resolve_OTIO": [
+                    {
+                      "Effect Name": "Rich Text",
+                      "Parameters": [
+                        {
+                          "Parameter ID": "title blob",
+                          "Title HTML": "<div class=\"title\">Hello <span class=\"accent\">Tellers</span></div>"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            },
+            "active_media_reference_key": "DEFAULT_MEDIA",
+            "effects": []
+          },
+          {
+            "OTIO_SCHEMA": "Gap.1",
+            "source_range": {
+              "OTIO_SCHEMA": "TimeRange.1",
+              "start_time": {
+                "OTIO_SCHEMA": "RationalTime.1",
+                "rate": 1,
+                "value": 0
+              },
+              "duration": {
+                "OTIO_SCHEMA": "RationalTime.1",
+                "rate": 1,
+                "value": 3
+              }
+            }
+          },
+          {
+            "OTIO_SCHEMA": "Clip.2",
+            "name": "subtitle",
+            "source_range": {
+              "OTIO_SCHEMA": "TimeRange.1",
+              "start_time": {
+                "OTIO_SCHEMA": "RationalTime.1",
+                "rate": 1,
+                "value": 0
+              },
+              "duration": {
+                "OTIO_SCHEMA": "RationalTime.1",
+                "rate": 1,
+                "value": 4
+              }
+            },
+            "media_references": {
+              "DEFAULT_MEDIA": {
+                "OTIO_SCHEMA": "GeneratorReference.1",
+                "name": "Text",
+                "generator_kind": "Rich",
+                "parameters": {
+                  "Resolve_OTIO": [
+                    {
+                      "Effect Name": "Rich Text",
+                      "Parameters": [
+                        {
+                          "Parameter ID": "title blob",
+                          "Title HTML": "<div class=\"fill\"><div class=\"subtitle\">A local clip, served by <span class=\"accent\">serve.py</span></div></div>"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            },
+            "active_media_reference_key": "DEFAULT_MEDIA",
+            "effects": []
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tellers Player</title>
+    <style>
+      html, body { height: 100%; margin: 0; background: #08090b; color: #f4f6f8; font: 13px system-ui, sans-serif; }
+      #player { height: 100%; }
+      .error { padding: 24px; }
+    </style>
+  </head>
+  <body>
+    <div id="player"></div>
+
+    <!--
+      The Tellers player, one self-contained file (workers and codecs inlined),
+      loaded from the tellers-player Vercel project. It brings its own play / seek / export controls.
+      Query parameters:
+        ?otio=<url>   timeline to play (default: timeline.otio next to this page)
+        ?title=<text> title shown over the picture
+        ?src=<url>    load bundle.js from elsewhere (a local or test build)
+    -->
+    <script>
+      const PLAYER_URL = "https://tellers.ai/videoplayer/bundle.js";
+      const params = new URLSearchParams(location.search);
+      const container = document.getElementById("player");
+      const fail = (html) => { container.innerHTML = `<p class="error">${html}</p>`; };
+
+      if (location.protocol === "file:") {
+        fail("Open this page through a local server, not as a file: " +
+          "<code>python3 serve.py .</code> then <code>http://localhost:8000/player.html</code>.");
+      } else {
+        const script = document.createElement("script");
+        script.src = params.get("src") || PLAYER_URL;
+        script.onload = () => {
+          window.ui = TellersPlayerUI.mount(container, {
+            otioUrl: params.get("otio") || "timeline.otio",
+            title: params.get("title") || undefined,
+            tellersLink: { variant: "powered" },
+            export: { format: "mp4", resolution: 1080, save: "picker" },
+          });
+        };
+        // Render with the player and save into the served folder (serve.py writes exports/<name>).
+        // Progress and the result are kept in window.exportStatus, so a caller can poll it.
+        window.exportToFolder = async (name = "export.mp4", options = {}) => {
+          const status = window.exportStatus = { state: "exporting", progress: 0, name };
+          try {
+            const format = options.format || name.split(".").pop().replace("jpg", "jpeg");
+            const result = await window.ui.export({
+              ...options,
+              format,
+              save: "none",
+              onProgress: (fraction, phase) => { status.progress = fraction; status.phase = phase; },
+            });
+            if (result.cancelled || !result.url) return Object.assign(status, { state: "cancelled" });
+            status.state = "saving";
+            const blob = await (await fetch(result.url)).blob();
+            const response = await fetch(`/exports/${encodeURIComponent(name)}`, { method: "POST", body: blob });
+            if (!response.ok) throw new Error(`${response.status} ${await response.text()}`);
+            return Object.assign(status, { state: "done", progress: 1 }, await response.json());
+          } catch (error) {
+            return Object.assign(status, { state: "error", error: String(error.message || error) });
+          }
+        };
+        script.onerror = () => fail(`Could not load the player from <code>${script.src}</code>. Check the internet connection.`);
+        document.head.appendChild(script);
+      }
+    </script>
+  </body>
+</html>

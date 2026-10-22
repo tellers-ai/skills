@@ -1,0 +1,11 @@
+{
+  "name": "tellers-otio-player",
+  "version": "0.1.0",
+  "description": "Build a Tellers OTIO timeline from local files or URLs, embed the single-file Tellers player in HTML and preview and export it on localhost.",
+  "author": {
+    "name": "Tellers",
+    "url": "https://tellers.ai"
+  },
+  "homepage": "https://github.com/tellers-ai/skills",
+  "license": "MIT"
+}

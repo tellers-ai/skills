@@ -1,0 +1,23 @@
+{
+  "name": "tellers-mcp",
+  "version": "0.1.0",
+  "description": "Connect the hosted Tellers MCP and use it for AI video editing with live previews.",
+  "author": { "name": "Tellers", "url": "https://tellers.ai" },
+  "homepage": "https://github.com/tellers-ai/skills",
+  "repository": "https://github.com/tellers-ai/skills",
+  "keywords": ["video", "editing", "mcp", "tellers"],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Tellers",
+    "shortDescription": "AI video editing with live previews",
+    "developerName": "Tellers",
+    "category": "Productivity",
+    "capabilities": ["Interactive", "Read", "Write"],
+    "websiteURL": "https://tellers.ai",
+    "defaultPrompt": [
+      "Show me the preview of my Tellers project",
+      "Cut the best 20 seconds of my footage into a short"
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "tellers-mcp",
+  "version": "0.1.0",
+  "description": "Connect the hosted Tellers MCP and use it for AI video editing with live previews.",
+  "author": {
+    "name": "Tellers",
+    "url": "https://tellers.ai"
+  },
+  "homepage": "https://github.com/tellers-ai/skills",
+  "license": "MIT"
+}

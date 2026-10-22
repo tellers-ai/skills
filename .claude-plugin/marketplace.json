@@ -1,0 +1,17 @@
+{
+  "name": "tellers",
+  "owner": { "name": "Tellers", "url": "https://tellers.ai" },
+  "metadata": { "description": "Tellers skills for AI agents: edit, preview and export video locally with the Tellers player, or edit Tellers projects through the Tellers MCP." },
+  "plugins": [
+    {
+      "name": "tellers-otio-player",
+      "source": "./plugins/tellers-otio-player",
+      "description": "Build a Tellers OTIO timeline from local files or URLs, embed the single-file Tellers player in HTML and preview and export it on localhost. No account needed."
+    },
+    {
+      "name": "tellers-mcp",
+      "source": "./plugins/tellers-mcp",
+      "description": "Connect the hosted Tellers MCP (https://mcp.tellers.ai/) and use it for AI video editing with live previews."
+    }
+  ]
+}

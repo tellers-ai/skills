@@ -1,0 +1,12 @@
+.DS_Store
+__pycache__/
+*.pyc
+.venv/
+
+# Credentials and local config: never commit
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.tellers/

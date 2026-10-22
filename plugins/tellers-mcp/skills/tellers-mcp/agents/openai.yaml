@@ -1,0 +1,10 @@
+interface:
+  display_name: "Tellers MCP"
+  short_description: "Connect and use the Tellers MCP for AI video editing"
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "tellers"
+      description: "Tellers MCP server"
+      transport: "streamable_http"
+      url: "https://mcp.tellers.ai/"
