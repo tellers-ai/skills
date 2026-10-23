@@ -2,15 +2,7 @@
   "OTIO_SCHEMA": "Timeline.1",
   "name": "example",
   "metadata": {
-    "tellers_aspect_ratio": "16_9",
-    "tellers.ai": {
-      "textStyles": {
-        "fill": "display:flex;flex-direction:column;align-items:center;justify-content:flex-end;width:100%;height:100%;padding-bottom:80px;box-sizing:border-box",
-        "subtitle": "font-family:sans-serif;font-weight:700;font-size:56px;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.85)",
-        "title": "font-family:sans-serif;font-weight:800;font-size:120px;color:#fff;text-shadow:0 4px 16px rgba(0,0,0,.85)",
-        "accent": "color:#ffd400"
-      }
-    }
+    "tellers_aspect_ratio": "16_9"
   },
   "tracks": {
     "OTIO_SCHEMA": "Stack.1",
@@ -280,19 +272,22 @@
               "DEFAULT_MEDIA": {
                 "OTIO_SCHEMA": "GeneratorReference.1",
                 "name": "Text",
-                "generator_kind": "Rich",
+                "generator_kind": "Text",
                 "parameters": {
-                  "Resolve_OTIO": [
-                    {
-                      "Effect Name": "Rich Text",
-                      "Parameters": [
-                        {
-                          "Parameter ID": "title blob",
-                          "Title HTML": "<div class=\"title\">Hello <span class=\"accent\">Tellers</span></div>"
-                        }
-                      ]
+                  "text": "Hello Tellers",
+                  "style": {
+                    "fontFamily": "sans-serif",
+                    "fontWeight": 800,
+                    "fontSize": 120,
+                    "fill": "#ffffff",
+                    "dropShadow": {
+                      "color": "#000000",
+                      "alpha": 0.85,
+                      "blur": 16,
+                      "distance": 4,
+                      "angle": 1.5708
                     }
-                  ]
+                  }
                 }
               }
             },
@@ -335,24 +330,41 @@
               "DEFAULT_MEDIA": {
                 "OTIO_SCHEMA": "GeneratorReference.1",
                 "name": "Text",
-                "generator_kind": "Rich",
+                "generator_kind": "Text",
                 "parameters": {
-                  "Resolve_OTIO": [
-                    {
-                      "Effect Name": "Rich Text",
-                      "Parameters": [
-                        {
-                          "Parameter ID": "title blob",
-                          "Title HTML": "<div class=\"fill\"><div class=\"subtitle\">A local clip, served by <span class=\"accent\">serve.py</span></div></div>"
-                        }
-                      ]
+                  "text": "A local clip, served by serve.py",
+                  "style": {
+                    "fontFamily": "sans-serif",
+                    "fontWeight": 700,
+                    "fontSize": 56,
+                    "fill": "#ffffff",
+                    "dropShadow": {
+                      "color": "#000000",
+                      "alpha": 0.85,
+                      "blur": 8,
+                      "distance": 2,
+                      "angle": 1.5708
                     }
-                  ]
+                  }
                 }
               }
             },
             "active_media_reference_key": "DEFAULT_MEDIA",
-            "effects": []
+            "effects": [
+              {
+                "OTIO_SCHEMA": "Effect.1",
+                "name": "bottom",
+                "effect_name": "Transform",
+                "enabled": true,
+                "metadata": {
+                  "tellers.ai": {
+                    "parameters": {
+                      "y": 0.38
+                    }
+                  }
+                }
+              }
+            ]
           }
         ]
       }

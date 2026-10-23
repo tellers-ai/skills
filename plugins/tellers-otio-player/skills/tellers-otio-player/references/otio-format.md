@@ -158,13 +158,13 @@ Other files a timeline can reference: fonts (`.woff2`, `.woff`, `.ttf`, `.otf`, 
 
 ## Text clip
 
-Text is a clip whose media reference is a generator holding HTML. Put it on its own
-video track above the footage.
+Text is a clip whose media reference is a `Text` generator: a string and a font style.
+Put it on its own video track above the footage.
 
 ```json
 {
   "OTIO_SCHEMA": "Clip.2",
-  "name": "Title",
+  "name": "Subtitle",
   "source_range": {
     "OTIO_SCHEMA": "TimeRange.1",
     "start_time": { "OTIO_SCHEMA": "RationalTime.1", "rate": 1, "value": 0 },
@@ -174,37 +174,43 @@ video track above the footage.
     "DEFAULT_MEDIA": {
       "OTIO_SCHEMA": "GeneratorReference.1",
       "name": "Text",
-      "generator_kind": "Rich",
+      "generator_kind": "Text",
       "parameters": {
-        "Resolve_OTIO": [
-          {
-            "Effect Name": "Rich Text",
-            "Parameters": [
-              {
-                "Parameter ID": "title blob",
-                "Title HTML": "<div style=\"display:flex;align-items:flex-end;justify-content:center;width:100%;height:100%;padding-bottom:60px;box-sizing:border-box\"><span style=\"font:700 64px sans-serif;color:#fff;text-shadow:0 2px 8px #000\">Hello</span></div>"
-              }
-            ]
-          }
-        ]
+        "text": "Hello",
+        "maxWidth": 0.9,
+        "style": {
+          "fontFamily": "Inter", "fontWeight": 700, "fontSize": 64, "fill": "#ffffff",
+          "dropShadow": { "color": "#000000", "alpha": 0.8, "blur": 8, "distance": 2 }
+        }
       }
     }
   },
   "active_media_reference_key": "DEFAULT_MEDIA",
-  "effects": []
+  "effects": [
+    { "OTIO_SCHEMA": "Effect.1", "effect_name": "Transform",
+      "metadata": { "tellers.ai": { "parameters": { "y": 0.38 } } } }
+  ]
 }
 ```
 
-- The HTML is laid out in a box with the frame's shape and the area of 1920×1080
-  (16:9 → 1920×1080, 9:16 → 1080×1920, 1:1 → 1440×1440), then scaled to the output, so
-  `px` sizes are in that space. The box is a centered flex column: short text lands in
-  the middle; use a `width:100%;height:100%` flex child to push it elsewhere (bottom for
-  subtitles).
-- Inline CSS only, no `<script>`. Remember to escape `"` inside the JSON string.
+- `parameters`: `text` (`\n` for line breaks), `maxWidth` (0.9, wrap width in frame
+  widths), `wrap` (true; false breaks only at `\n`), `style`.
+- `style` (defaults): `fontFamily` (`sans-serif`), `fontSize` (64, px), `fontWeight`
+  (`normal`, or `700`…), `fontStyle` (`normal` | `italic`), `fill` (`#ffffff`), `align`
+  (`center` | `left` | `right`), `lineHeight` (multiple of the font size; 0 = auto),
+  `letterSpacing` (px), `stroke` (`{ "color", "width" }`), `dropShadow`
+  (`{ "color", "alpha", "blur", "distance", "angle" }`), `background`
+  (`{ "mode": "block" | "line" | "word", "color", "opacity", "padding", "radius" }`).
+- Sizes are px in a 1080-pixel-tall reference frame and scale with the output.
+- The text is centered in the frame. Move it with a `Transform` effect (`y: 0.38` puts
+  a subtitle near the bottom); fades, pops and slides of the whole text are `Transform`
+  keyframes. Animate letters and words with the **Text animation** effects below.
+- One clip has one style: for a word in another color, use a second clip or a
+  `TextColor` / `TextKaraoke` effect.
 
-### Fonts and shared styles
+### Fonts
 
-Declare web fonts and reusable CSS classes once in the timeline metadata:
+Declare web fonts once in the timeline metadata, then use the `family` as `fontFamily`:
 
 ```json
 "metadata": {
@@ -212,19 +218,13 @@ Declare web fonts and reusable CSS classes once in the timeline metadata:
   "tellers.ai": {
     "availableFonts": [
       { "family": "Inter", "url": "https://cdn.jsdelivr.net/npm/@fontsource/inter@5.1.1/files/inter-latin-700-normal.woff2", "weight": "700", "style": "normal" }
-    ],
-    "textStyles": {
-      "subtitle": "font-family:Inter,sans-serif;font-weight:700;font-size:56px;color:#fff;text-align:center;text-shadow:0 2px 8px rgba(0,0,0,.8)",
-      "accent": "color:#ffd400"
-    }
+    ]
   }
 }
 ```
 
-Then `"Title HTML": "<div class=\"subtitle\">Hello <span class=\"accent\">world</span></div>"`.
 Font URLs must be `https:`/`http:`/`data:` and allow CORS (a local font served by
-`serve.py` works). Only fonts actually used are downloaded. A track can declare its
-own `metadata["tellers.ai"].textStyles`, which override the timeline's by class name.
+`serve.py` works). Only fonts actually used are downloaded.
 
 ## Effects
 
@@ -500,8 +500,7 @@ These are the keys tellers-timeline reads and writes:
 | track, marker | `created_by` | `"auto"` on tracks the engine created (pruned when empty); the user id on markers. |
 | clip | `Tellers Group ID` | Number shared by clips edited as one group. |
 | clip, `metadata.Resolve_OTIO` | `Link Group ID` | Number shared by a video clip and its sound clips on audio tracks, so they move and trim together. |
-| timeline | `availableFonts`, `textStyles` | See **Fonts and shared styles**. |
-| track | `textStyles` | Track-level styles overriding the timeline's. |
+| timeline | `availableFonts` | See **Fonts**. |
 
 A video with its own sound is two clips (video track + audio track) with the same timing;
 giving both the same `Link Group ID` keeps them linked once the timeline is in Tellers:
