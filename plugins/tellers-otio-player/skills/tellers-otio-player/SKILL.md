@@ -206,7 +206,7 @@ Other mount options: `playerOptions` (passed to the `VideoPlayer` constructor, e
 | Timeline does not load | `?otio=` URL wrong (it is relative to the page), or invalid JSON: run `check_otio.py`. |
 | A clip stays black / silent | `target_url` 404, a disk path, or a remote URL without CORS. Check the browser console and `check_otio.py`. |
 | No sound from a video | Video tracks are picture only; add the file to an audio track. |
-| Text in the wrong place | Text is laid out on a 1920×1080-area box (`references/otio-format.md`, Text clip). |
+| Text in the wrong place | Text is centered in the frame; move it with a `Transform` effect (`references/otio-format.md`, Text clip). |
 | Choppy playback | Many 4K layers at once. Pass `playerOptions: { renderScale: "auto" }`, or use lighter proxies. |
 
 ## Transferring the edit to Tellers
