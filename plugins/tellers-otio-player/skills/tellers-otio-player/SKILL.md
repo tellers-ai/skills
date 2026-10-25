@@ -1,6 +1,6 @@
 ---
 name: tellers-otio-player
-description: Build and preview a video edit locally with the Tellers player — write a Tellers OTIO timeline (.otio) that cuts, layers, titles and mixes local files and/or internet media URLs, embed the Tellers player (one <script> from tellers.ai) in an HTML page, and serve the folder on localhost so the user can play, scrub and export the result to MP4 (or the agent exports it into the folder itself). Also covers transferring the edit to Tellers with the Tellers CLI (upload media and .otio, project recreated), and pulling a Tellers project back to local files (media downloaded, .otio rewritten). Use when the user wants to assemble or preview a video from clips on their machine or from URLs, play or inspect an existing .otio file, embed the Tellers player in a web page, or asks to "make a video / montage / edit" without the Tellers MCP. No Tellers account is needed.
+description: Build and preview a video edit locally with the Tellers player — write a Tellers OTIO timeline (.otio) that cuts, layers, titles and mixes local files and/or internet media URLs, embed the Tellers player (one <script> from tellers.ai) in an HTML page, and serve the folder on localhost so the user can play, scrub and export the result to MP4 (or the agent exports it into the folder itself, including a single still frame to look at and check the edit). Also covers transferring the edit to Tellers with the Tellers CLI (upload media and .otio, project recreated), and pulling a Tellers project back to local files (media downloaded, .otio rewritten). Use when the user wants to assemble or preview a video from clips on their machine or from URLs, play or inspect an existing .otio file, embed the Tellers player in a web page, or asks to "make a video / montage / edit" without the Tellers MCP. No Tellers account is needed.
 ---
 
 # Tellers OTIO player (local)
@@ -151,6 +151,30 @@ window.exportStatus   // { state: "exporting", progress: 0.42, phase } … then
   "mp4", save: "none" })`, then `fetch("/exports/edit.mp4", { method: "POST", body:
   await (await fetch(url)).blob() })`.
 
+### 6. Look at a frame to check the edit
+
+To see what the edit actually looks like at a given moment (text placement, crop,
+`Transform`, colour, which layer is on top), export that one frame and open the image
+yourself instead of guessing from the JSON or asking the user:
+
+```js
+exportToFolder("frame-12.5s.png", { time: 12.5, resolution: 720 });
+window.exportStatus   // poll until { state: "done", path: "exports/frame-12.5s.png" }
+```
+
+Then read `<served folder>/exports/frame-12.5s.png` with your image-reading tool
+(a file-read tool that shows images).
+
+- `time` is seconds on the timeline (not in the source media). Pick a moment inside
+  the clip you changed, not on a cut or mid-transition, unless that is what you check.
+- 480–720 is enough to analyse and much faster than 1080; use full resolution only to
+  check fine detail such as small text.
+- Name each frame after its time, so checking several moments does not overwrite
+  earlier frames. For a sequence, start the next export only after `exportStatus` is
+  `done`: it tracks the latest export only.
+- After editing `timeline.otio`, call `ui.loadUrl` (step 5) before exporting, or the
+  frame shows the old edit.
+
 ## Embedding the player in another page
 
 Any page, on any site, can include the player with one `<script>` tag. It is a single
@@ -206,7 +230,7 @@ Other mount options: `playerOptions` (passed to the `VideoPlayer` constructor, e
 | Timeline does not load | `?otio=` URL wrong (it is relative to the page), or invalid JSON: run `check_otio.py`. |
 | A clip stays black / silent | `target_url` 404, a disk path, or a remote URL without CORS. Check the browser console and `check_otio.py`. |
 | No sound from a video | Video tracks are picture only; add the file to an audio track. |
-| Text in the wrong place | Text is centered in the frame; move it with a `Transform` effect (`references/otio-format.md`, Text clip). |
+| Text in the wrong place | Text is centered in the frame; move it with a `Transform` effect (`references/otio-format.md`, Text clip). Export a frame at that time to check (step 6). |
 | Choppy playback | Many 4K layers at once. Pass `playerOptions: { renderScale: "auto" }`, or use lighter proxies. |
 
 ## Transferring the edit to Tellers
