@@ -161,6 +161,8 @@ Timeline rules (the same as the local player, see the `tellers-otio-player` skil
   automatically, so insert it once, on the video track. Change its volume or mute it on
   that bound audio clip.
 - Clips on a track play back to back; use gaps to place them, and other tracks to overlap.
+- Do not use rich text (HTML or styled markup) in text, title or subtitle items. It
+  renders, locally and in the app, but it is slower to show. Write plain text only.
 
 ### Cost and confirmation
 
