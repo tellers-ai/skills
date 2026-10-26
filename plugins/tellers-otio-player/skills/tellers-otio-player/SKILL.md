@@ -65,6 +65,8 @@ Read `references/otio-format.md`, then write `timeline.otio` (JSON). Start from
   and text after.
 - Clips on a track play back to back. Use `Gap.1` to delay something; use another
   track to overlap.
+- Do not use rich text (HTML or styled markup) in text clips. It renders, locally and
+  in the app, but it is slower to show. Write plain text only.
 - Sound comes only from `audio` tracks. To keep a video's own sound, put the same
   file with the same `source_range` on an audio track.
 - `target_url` is either relative to the page (`media/clip.mp4`) or an absolute
