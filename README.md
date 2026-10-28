@@ -4,19 +4,8 @@
 <p align="center">Cut, layer, title and add effects to local files or URLs, or edit cloud projects with <a href="https://tellers.ai">Tellers</a>.</p>
 
 <table align="center">
-<tr><th align="center">Prompt your agent</th><th align="center">Install the skills</th></tr>
-<tr>
-<td align="center">
-<pre>Edit videos with https://github.com/tellers-ai/skills</pre>
-<sub>Copy the prompt into your agent</sub><br><br>
-<a href="https://chatgpt.com/codex"><kbd>Codex ↗</kbd></a>
-<a href="https://claude.ai/new"><kbd>Claude ↗</kbd></a>
-</td>
-<td align="center">
-<pre>npx skills add tellers-ai/skills</pre>
-<sub>Run in your terminal</sub>
-</td>
-</tr>
+<tr><th align="center">Prompt your agent</th></tr>
+<tr><td align="center"><pre>Edit videos with https://github.com/tellers-ai/skills</pre></td></tr>
 </table>
 
 https://github.com/user-attachments/assets/27b977aa-65b6-4704-99f5-a04dd79f8c7e
@@ -32,6 +21,12 @@ Both use the same timeline format, documented in
 [`otio-format.md`](plugins/tellers-otio-player/skills/tellers-otio-player/references/otio-format.md).
 
 ## Install
+
+Use the skills CLI as an alternative to the native Claude Code and Codex plugin commands below:
+
+```bash
+npx skills add tellers-ai/skills
+```
 
 ### Claude Code (plugins)
 
@@ -63,12 +58,6 @@ marketplace. The `tellers-mcp` plugin registers the Tellers MCP server; sign in 
 `codex mcp login tellers`. Codex reads `.agents/plugins/marketplace.json` and each
 plugin's `.codex-plugin/plugin.json`; Claude Code reads the `.claude-plugin/` files.
 Both use the same `skills/` folders.
-
-### skills CLI
-
-```bash
-npx skills add tellers-ai/skills
-```
 
 ### Any agent that reads skill folders
 
