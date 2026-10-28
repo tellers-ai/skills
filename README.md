@@ -1,14 +1,23 @@
 # Tellers skills
 
-Skills that let AI agents (Claude Code, Codex, Claude Desktop, Cursor and any agent
-that reads `SKILL.md` folders) edit video with [Tellers](https://tellers.ai): cut a
-montage from local files or URLs and preview and export it in the Tellers player on
-your machine, or edit your Tellers projects in the cloud through the Tellers MCP.
+**Edit video with your AI agent. Preview and export on your machine.**
+
+Cut, layer, title and add effects to local files or URLs with [Tellers](https://tellers.ai),
+or work on cloud projects through the Tellers MCP. Works with Claude Code, Codex,
+Claude Desktop, Cursor and any agent that reads `SKILL.md` folders.
+
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=C1KhD6tU-po">
+    <img src="https://img.youtube.com/vi/C1KhD6tU-po/hqdefault.jpg" alt="Watch the Tellers video editing demo on YouTube" width="480">
+  </a>
+  <br>
+  <a href="https://www.youtube.com/watch?v=C1KhD6tU-po">▶ Watch the demo</a>
+</p>
 
 | Skill | What the agent can do | Needs |
 | --- | --- | --- |
-| [`tellers-otio-player`](plugins/tellers-otio-player/skills/tellers-otio-player/SKILL.md) | Write a Tellers OTIO timeline from **local files and/or internet URLs** (cuts, layers, titles, effects, music), play it in the Tellers player on `localhost`, and **export it to MP4** into the project folder. Also moves an edit to Tellers with the CLI, and pulls a Tellers project back to local files. | Python 3 and a browser (Chrome / Edge recommended). No account. |
-| [`tellers-mcp`](plugins/tellers-mcp/skills/tellers-mcp/SKILL.md) | **Install the Tellers MCP** (`https://mcp.tellers.ai/`) in Claude Code, Claude Desktop, Codex or Cursor, then edit Tellers projects, search footage and transcripts, generate voice, music, images and video, and open a live preview. | A Tellers account (create one on the sign-in page). |
+| [`tellers-otio-player`](plugins/tellers-otio-player/skills/tellers-otio-player/SKILL.md) | Build OTIO timelines from **local files or URLs** with cuts, layers, titles, effects and music. Preview on `localhost`, **export MP4** to the project folder, or move edits between your machine and Tellers with the CLI. | Python 3 + a browser (Chrome / Edge recommended). **No Tellers account.** |
+| [`tellers-mcp`](plugins/tellers-mcp/skills/tellers-mcp/SKILL.md) | Install the [Tellers MCP](https://mcp.tellers.ai/), edit cloud projects, search footage and transcripts, generate voice, music, images and video, and open a live preview. | A Tellers account (create one on the sign-in page). |
 
 Both use the same timeline format, documented in
 [`otio-format.md`](plugins/tellers-otio-player/skills/tellers-otio-player/references/otio-format.md).
