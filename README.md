@@ -29,7 +29,7 @@ Or from inside Claude Code: `/plugin marketplace add tellers-ai/skills`, then
 
 No Tellers account yet? The sign-in page has **Continue with Google** and a **Create
 account** tab. With an email and password, open the confirmation link Tellers emails
-you, then click **I have confirmed it** before **Approve and continue**. `tellers login`
+you; the page then unlocks **Approve and continue** on its own. `tellers login`
 (Tellers CLI) opens the same page.
 
 ### Codex
