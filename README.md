@@ -6,13 +6,9 @@ Cut, layer, title and add effects to local files or URLs with [Tellers](https://
 or work on cloud projects through the Tellers MCP. Works with Claude Code, Codex,
 Claude Desktop, Cursor and any agent that reads `SKILL.md` folders.
 
-<p align="center">
-  <a href="https://www.youtube.com/watch?v=C1KhD6tU-po">
-    <img src="https://img.youtube.com/vi/C1KhD6tU-po/hqdefault.jpg" alt="Watch the Tellers video editing demo on YouTube" width="480">
-  </a>
-  <br>
-  <a href="https://www.youtube.com/watch?v=C1KhD6tU-po">▶ Watch the demo</a>
-</p>
+https://github.com/user-attachments/assets/27b977aa-65b6-4704-99f5-a04dd79f8c7e
+
+[Watch the full demo on YouTube](https://www.youtube.com/watch?v=C1KhD6tU-po)
 
 | Skill | What the agent can do | Needs |
 | --- | --- | --- |
