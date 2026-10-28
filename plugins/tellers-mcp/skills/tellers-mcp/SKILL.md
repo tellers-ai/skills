@@ -11,6 +11,7 @@ preview of the result. Nothing runs locally.
 
 - Endpoint: `https://mcp.tellers.ai/` (Streamable HTTP)
 - Auth: OAuth with the user's Tellers account (the one used at app.tellers.ai). No API key.
+  No account yet: it can be created on the sign-in page itself (see **No account yet**).
 - Docs: https://tellers.ai/docs/mcp
 
 For a purely local edit (files on disk, no account), use the `tellers-otio-player`
@@ -52,8 +53,8 @@ an open tab. A Tellers project is rendered in the cloud from app.tellers.ai, the
 finished video stays in the project, and `tellers_publish_to_social` posts it to the
 user's connected accounts without a download/upload round trip.
 
-Prefer the local skill when the user has no Tellers account, wants nothing uploaded,
-or only needs a quick cut of a few small files.
+Prefer the local skill when the user does not want a Tellers account, wants nothing
+uploaded, or only needs a quick cut of a few small files.
 
 ## 1. Install
 
@@ -106,6 +107,20 @@ The client runs the OAuth sign-in on first use.
 You cannot complete the sign-in for the user: tell them which command or menu to use,
 and wait for them to confirm before calling tools.
 
+### No account yet
+
+The sign-in page every client opens (`auth.tellers.ai`, the same one `tellers login`
+uses) also creates accounts:
+
+- **Continue with Google**: the account is created on **Approve and continue**; nothing
+  to confirm.
+- **Create account** tab, with an email and password: Tellers emails a confirmation
+  link. **Approve** stays disabled until the user opens it and clicks **I have
+  confirmed it** (**Send the link again** if it did not arrive).
+
+An account created here starts with free credits (once per email address). Signing up
+at app.tellers.ai works too.
+
 ### Check the connection
 
 Call `auth_status`: it returns the Tellers account the connection is signed in as.
@@ -113,6 +128,8 @@ Call `auth_status`: it returns the Tellers account the connection is signed in a
 | Problem | What to do |
 | --- | --- |
 | `401` / "Missing Authorization header" | Not signed in, or the token expired (1 h; refreshed automatically by most clients). Re-run Authenticate (`/mcp` in Claude Code, Connect in Desktop, `codex mcp login tellers`). |
+| "Confirm your email address before connecting a new Tellers account" | The email is not confirmed yet. Open the link Tellers sent, then **I have confirmed it** and **Approve** on the sign-in page. |
+| `403` with `detail.code` `EMAIL_NOT_VERIFIED` ("verify your email address before using credits") | The account's email is unconfirmed: it can read projects but not spend credits. Nothing was charged. The user opens the confirmation link (or resends it from app.tellers.ai), then retries; no reconnect needed. |
 | Client fails during sign-in with a registration / `/register` error | The client needs dynamic client registration and the server's OAuth discovery is not answering. It is a server-side issue: report it to the Tellers team with the error text. |
 | Tools missing after connecting | Restart the client / start a new conversation; Claude Code: `/mcp` → reconnect. |
 | Preview stays blank | The host blocked the player or a media origin. The tool's text result has the project link: open it in app.tellers.ai. |

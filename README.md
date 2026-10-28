@@ -8,7 +8,7 @@ your machine, or edit your Tellers projects in the cloud through the Tellers MCP
 | Skill | What the agent can do | Needs |
 | --- | --- | --- |
 | [`tellers-otio-player`](plugins/tellers-otio-player/skills/tellers-otio-player/SKILL.md) | Write a Tellers OTIO timeline from **local files and/or internet URLs** (cuts, layers, titles, effects, music), play it in the Tellers player on `localhost`, and **export it to MP4** into the project folder. Also moves an edit to Tellers with the CLI, and pulls a Tellers project back to local files. | Python 3 and a browser (Chrome / Edge recommended). No account. |
-| [`tellers-mcp`](plugins/tellers-mcp/skills/tellers-mcp/SKILL.md) | **Install the Tellers MCP** (`https://mcp.tellers.ai/`) in Claude Code, Claude Desktop, Codex or Cursor, then edit Tellers projects, search footage and transcripts, generate voice, music, images and video, and open a live preview. | A Tellers account. |
+| [`tellers-mcp`](plugins/tellers-mcp/skills/tellers-mcp/SKILL.md) | **Install the Tellers MCP** (`https://mcp.tellers.ai/`) in Claude Code, Claude Desktop, Codex or Cursor, then edit Tellers projects, search footage and transcripts, generate voice, music, images and video, and open a live preview. | A Tellers account (create one on the sign-in page). |
 
 Both use the same timeline format, documented in
 [`otio-format.md`](plugins/tellers-otio-player/skills/tellers-otio-player/references/otio-format.md).
@@ -26,6 +26,11 @@ claude plugin install tellers-mcp@tellers
 Or from inside Claude Code: `/plugin marketplace add tellers-ai/skills`, then
 `/plugin`. The `tellers-mcp` plugin also registers the Tellers MCP server; run `/mcp` →
 **tellers** → **Authenticate** once to sign in.
+
+No Tellers account yet? The sign-in page has **Continue with Google** and a **Create
+account** tab. With an email and password, open the confirmation link Tellers emails
+you, then click **I have confirmed it** before **Approve and continue**. `tellers login`
+(Tellers CLI) opens the same page.
 
 ### Codex
 
