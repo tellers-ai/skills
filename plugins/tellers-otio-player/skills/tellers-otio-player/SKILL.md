@@ -126,7 +126,9 @@ Edit `timeline.otio` and re-run the check. Then refresh the player depending on 
 
 #### Let the user edit on a timeline
 
-When the user wants to adjust the edit by hand, open the page with `&timeline=1`:
+The timeline is optional. Open the player without it by default, and add it only when
+the user asks to see the timeline or to adjust the edit by hand (you can mention that it
+exists). Then open the page with `&timeline=1`:
 `http://localhost:8000/player.html?otio=timeline.otio&timeline=1`. The Tellers editor
 timeline (the one in the Tellers app) shows under the player and drives it: drag clips
 to move them, drag their ends to trim, S to split, ⌫ to delete, ⌘Z to undo, and a right
