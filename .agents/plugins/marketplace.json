@@ -3,14 +3,14 @@
   "interface": { "displayName": "Tellers" },
   "plugins": [
     {
-      "name": "tellers-otio-player",
-      "source": { "source": "local", "path": "./plugins/tellers-otio-player" },
+      "name": "video-player",
+      "source": { "source": "local", "path": "./plugins/video-player" },
       "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
       "category": "Productivity"
     },
     {
-      "name": "tellers-mcp",
-      "source": { "source": "local", "path": "./plugins/tellers-mcp" },
+      "name": "mcp",
+      "source": { "source": "local", "path": "./plugins/mcp" },
       "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
       "category": "Productivity"
     }

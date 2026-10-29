@@ -1,5 +1,5 @@
 {
-  "name": "tellers-otio-player",
+  "name": "video-player",
   "version": "0.1.0",
   "description": "Build a Tellers OTIO timeline from local files or URLs, preview it on localhost with the Tellers player, and transfer it to Tellers with the CLI.",
   "author": { "name": "Tellers", "url": "https://tellers.ai" },
@@ -8,7 +8,7 @@
   "keywords": ["video", "otio", "timeline", "player", "tellers"],
   "skills": "./skills/",
   "interface": {
-    "displayName": "Tellers OTIO Player",
+    "displayName": "Tellers Video Player",
     "shortDescription": "Edit and preview video locally with the Tellers player",
     "developerName": "Tellers",
     "category": "Productivity",
