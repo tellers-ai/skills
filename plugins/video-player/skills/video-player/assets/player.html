@@ -6,26 +6,61 @@
     <title>Tellers Player</title>
     <style>
       html, body { height: 100%; margin: 0; background: #08090b; color: #f4f6f8; font: 13px system-ui, sans-serif; }
-      #player { height: 100%; }
+      #player { height: 100%; min-height: 0; }
+      #timeline { display: none; min-height: 0; border-top: 1px solid #1d1f22; }
+      body.with-timeline { display: grid; grid-template-rows: minmax(0, 1fr) minmax(240px, 42%); }
+      body.with-timeline #timeline { display: block; }
       .error { padding: 24px; }
     </style>
   </head>
   <body>
     <div id="player"></div>
+    <div id="timeline"></div>
 
     <!--
       The Tellers player, one self-contained file (workers and codecs inlined),
       loaded from the tellers-player Vercel project. It brings its own play / seek / export controls.
       Query parameters:
-        ?otio=<url>   timeline to play (default: timeline.otio next to this page)
-        ?title=<text> title shown over the picture
-        ?src=<url>    load bundle.js from elsewhere (a local or test build)
+        ?otio=<url>      timeline to play (default: timeline.otio next to this page)
+        ?title=<text>    title shown over the picture
+        ?timeline=1      show the editor timeline under the player; every edit is saved
+                         to exports/<otio file name> (serve.py), never over the original
+        ?timeline=view   the timeline without editing (seek, zoom, select)
+        ?src=<url>       load bundle.js from elsewhere (a local or test build)
     -->
     <script>
       const PLAYER_URL = "https://tellers.ai/videoplayer/bundle.js";
       const params = new URLSearchParams(location.search);
+      const otioUrl = params.get("otio") || "timeline.otio";
+      const timelineMode = params.get("timeline");
       const container = document.getElementById("player");
       const fail = (html) => { container.innerHTML = `<p class="error">${html}</p>`; };
+
+      // POST a file to serve.py, which writes it to exports/<name>.
+      const saveToFolder = async (name, blob) => {
+        const response = await fetch(`/exports/${encodeURIComponent(name)}`, { method: "POST", body: blob });
+        if (!response.ok) throw new Error(`${response.status} ${await response.text()}`);
+        return response.json();
+      };
+
+      // Edits made in the timeline: the latest one is saved (debounced) to exports/<otio name>.
+      // window.timelineStatus is { edits, state: "saving" | "saved" | "error", path, error }.
+      const editedName = (otioUrl.split(/[?#]/)[0].split("/").pop() || "timeline.otio").replace(/\.(otio|json)$/i, "") + ".otio";
+      let saveTimer = null;
+      const saveEdit = (otio) => {
+        const status = window.timelineStatus;
+        status.edits += 1;
+        status.state = "saving";
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(async () => {
+          try {
+            const blob = new Blob([JSON.stringify(otio, null, 2)], { type: "application/json" });
+            Object.assign(status, { state: "saved", error: undefined }, await saveToFolder(editedName, blob));
+          } catch (error) {
+            Object.assign(status, { state: "error", error: String(error.message || error) });
+          }
+        }, 500);
+      };
 
       if (location.protocol === "file:") {
         fail("Open this page through a local server, not as a file: " +
@@ -33,13 +68,22 @@
       } else {
         const script = document.createElement("script");
         script.src = params.get("src") || PLAYER_URL;
-        script.onload = () => {
+        script.onload = async () => {
           window.ui = TellersPlayerUI.mount(container, {
-            otioUrl: params.get("otio") || "timeline.otio",
+            otioUrl,
             title: params.get("title") || undefined,
             tellersLink: { variant: "powered" },
             export: { format: "mp4", resolution: 1080, save: "picker" },
           });
+          if (timelineMode && timelineMode !== "0") {
+            document.body.classList.add("with-timeline");
+            window.timelineStatus = { edits: 0, state: "unchanged", path: `exports/${editedName}` };
+            window.timeline = await TellersPlayerUI.mountTimeline(document.getElementById("timeline"), {
+              player: window.ui,
+              editable: timelineMode !== "view",
+              onChange: saveEdit,
+            });
+          }
         };
         // Render with the player and save into the served folder (serve.py writes exports/<name>).
         // Progress and the result are kept in window.exportStatus, so a caller can poll it.
@@ -56,9 +100,7 @@
             if (result.cancelled || !result.url) return Object.assign(status, { state: "cancelled" });
             status.state = "saving";
             const blob = await (await fetch(result.url)).blob();
-            const response = await fetch(`/exports/${encodeURIComponent(name)}`, { method: "POST", body: blob });
-            if (!response.ok) throw new Error(`${response.status} ${await response.text()}`);
-            return Object.assign(status, { state: "done", progress: 1 }, await response.json());
+            return Object.assign(status, { state: "done", progress: 1 }, await saveToFolder(name, blob));
           } catch (error) {
             return Object.assign(status, { state: "error", error: String(error.message || error) });
           }
