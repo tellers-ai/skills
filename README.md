@@ -14,11 +14,11 @@ https://github.com/user-attachments/assets/27b977aa-65b6-4704-99f5-a04dd79f8c7e
 
 | Skill | What the agent can do | Needs |
 | --- | --- | --- |
-| [`tellers-otio-player`](plugins/tellers-otio-player/skills/tellers-otio-player/SKILL.md) | Build OTIO timelines from **local files or URLs** with cuts, layers, titles, effects and music. Preview on `localhost`, **export MP4** to the project folder, or move edits between your machine and Tellers with the CLI. | Python 3 + a browser (Chrome / Edge recommended). **No Tellers account.** |
-| [`tellers-mcp`](plugins/tellers-mcp/skills/tellers-mcp/SKILL.md) | Install the [Tellers MCP](https://mcp.tellers.ai/), edit cloud projects, search footage and transcripts, generate voice, music, images and video, and open a live preview. | A Tellers account (create one on the sign-in page). |
+| [`video-player`](plugins/video-player/skills/video-player/SKILL.md) | Build OTIO timelines from **local files or URLs** with cuts, layers, titles, effects and music. Preview on `localhost`, **export MP4** to the project folder, or move edits between your machine and Tellers with the CLI. | Python 3 + a browser (Chrome / Edge recommended). **No Tellers account.** |
+| [`tellers-mcp`](plugins/mcp/skills/tellers-mcp/SKILL.md) | Install the [Tellers MCP](https://mcp.tellers.ai/), edit cloud projects, search footage and transcripts, generate voice, music, images and video, and open a live preview. | A Tellers account (create one on the sign-in page). |
 
 Both use the same timeline format, documented in
-[`otio-format.md`](plugins/tellers-otio-player/skills/tellers-otio-player/references/otio-format.md).
+[`otio-format.md`](plugins/video-player/skills/video-player/references/otio-format.md).
 
 ## Install
 
@@ -32,12 +32,12 @@ npx skills add tellers-ai/skills
 
 ```bash
 claude plugin marketplace add tellers-ai/skills
-claude plugin install tellers-otio-player@tellers
-claude plugin install tellers-mcp@tellers
+claude plugin install video-player@tellers
+claude plugin install mcp@tellers
 ```
 
 Or from inside Claude Code: `/plugin marketplace add tellers-ai/skills`, then
-`/plugin`. The `tellers-mcp` plugin also registers the Tellers MCP server; run `/mcp` →
+`/plugin`. The `mcp` plugin also registers the Tellers MCP server; run `/mcp` →
 **tellers** → **Authenticate** once to sign in.
 
 No Tellers account yet? The sign-in page has **Continue with Google** and a **Create
@@ -49,12 +49,12 @@ you; the page then unlocks **Approve and continue** on its own. `tellers login`
 
 ```bash
 codex plugin marketplace add tellers-ai/skills
-codex plugin add tellers-otio-player@tellers
-codex plugin add tellers-mcp@tellers
+codex plugin add video-player@tellers
+codex plugin add mcp@tellers
 ```
 
 Or install them from the Plugins directory in the Codex app after adding the
-marketplace. The `tellers-mcp` plugin registers the Tellers MCP server; sign in with
+marketplace. The `mcp` plugin registers the Tellers MCP server; sign in with
 `codex mcp login tellers`. Codex reads `.agents/plugins/marketplace.json` and each
 plugin's `.codex-plugin/plugin.json`; Claude Code reads the `.claude-plugin/` files.
 Both use the same `skills/` folders.
@@ -65,8 +65,8 @@ Copy a skill folder into your skills directory: `~/.claude/skills/` for Claude C
 `~/.agents/skills/` for Codex (or `.agents/skills/` inside a repo):
 
 ```bash
-cp -R plugins/tellers-otio-player/skills/tellers-otio-player ~/.agents/skills/
-cp -R plugins/tellers-mcp/skills/tellers-mcp ~/.agents/skills/
+cp -R plugins/video-player/skills/video-player ~/.agents/skills/
+cp -R plugins/mcp/skills/tellers-mcp ~/.agents/skills/
 ```
 
 For claude.ai / Claude Desktop, zip a skill folder and upload it under
@@ -78,8 +78,8 @@ For claude.ai / Claude Desktop, zip a skill folder and upload it under
 .claude-plugin/marketplace.json     Claude Code marketplace
 .agents/plugins/marketplace.json    Codex marketplace
 plugins/
-  tellers-otio-player/
-    skills/tellers-otio-player/
+  video-player/
+    skills/video-player/
       SKILL.md
       references/otio-format.md      timeline format
       references/transfer-to-tellers.md  local edit -> Tellers project with the CLI
@@ -89,7 +89,7 @@ plugins/
       scripts/check_otio.py          timeline and media URL checker
       scripts/prepare_transfer.py    upload folder for recreating the edit with the Tellers CLI
       scripts/pull_from_tellers.py   Tellers project -> local media + .otio
-  tellers-mcp/
+  mcp/
     .mcp.json                        registers https://mcp.tellers.ai/ (both agents)
     skills/tellers-mcp/SKILL.md
     skills/tellers-mcp/agents/openai.yaml  Codex metadata + MCP dependency

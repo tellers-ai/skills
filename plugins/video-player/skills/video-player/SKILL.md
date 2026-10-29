@@ -1,5 +1,5 @@
 ---
-name: tellers-otio-player
+name: video-player
 description: Build and preview a video edit locally with the Tellers player — write a Tellers OTIO timeline (.otio) that cuts, layers, titles and mixes local files and/or internet media URLs, embed the Tellers player (one <script> from tellers.ai) in an HTML page, and serve the folder on localhost so the user can play, scrub and export the result to MP4 (or the agent exports it into the folder itself, including a single still frame to look at and check the edit). The page can also show the Tellers editor timeline under the player, so the user can cut, trim, move, add text, effects, transitions and speed changes by hand, with each edit saved into the folder for the agent to pick up. Also covers transferring the edit to Tellers with the Tellers CLI (upload media and .otio, project recreated), and pulling a Tellers project back to local files (media downloaded, .otio rewritten). Use when the user wants to assemble or preview a video from clips on their machine or from URLs, play or inspect an existing .otio file, embed the Tellers player in a web page, or asks to "make a video / montage / edit" without the Tellers MCP. No Tellers account is needed.
 ---
 
