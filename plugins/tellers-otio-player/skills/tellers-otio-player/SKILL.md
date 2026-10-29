@@ -1,6 +1,6 @@
 ---
 name: tellers-otio-player
-description: Build and preview a video edit locally with the Tellers player — write a Tellers OTIO timeline (.otio) that cuts, layers, titles and mixes local files and/or internet media URLs, embed the Tellers player (one <script> from tellers.ai) in an HTML page, and serve the folder on localhost so the user can play, scrub and export the result to MP4 (or the agent exports it into the folder itself, including a single still frame to look at and check the edit). Also covers transferring the edit to Tellers with the Tellers CLI (upload media and .otio, project recreated), and pulling a Tellers project back to local files (media downloaded, .otio rewritten). Use when the user wants to assemble or preview a video from clips on their machine or from URLs, play or inspect an existing .otio file, embed the Tellers player in a web page, or asks to "make a video / montage / edit" without the Tellers MCP. No Tellers account is needed.
+description: Build and preview a video edit locally with the Tellers player — write a Tellers OTIO timeline (.otio) that cuts, layers, titles and mixes local files and/or internet media URLs, embed the Tellers player (one <script> from tellers.ai) in an HTML page, and serve the folder on localhost so the user can play, scrub and export the result to MP4 (or the agent exports it into the folder itself, including a single still frame to look at and check the edit). The page can also show the Tellers editor timeline under the player, so the user can cut, trim, move, add text, effects, transitions and speed changes by hand, with each edit saved into the folder for the agent to pick up. Also covers transferring the edit to Tellers with the Tellers CLI (upload media and .otio, project recreated), and pulling a Tellers project back to local files (media downloaded, .otio rewritten). Use when the user wants to assemble or preview a video from clips on their machine or from URLs, play or inspect an existing .otio file, embed the Tellers player in a web page, or asks to "make a video / montage / edit" without the Tellers MCP. No Tellers account is needed.
 ---
 
 # Tellers OTIO player (local)
@@ -15,9 +15,9 @@ Files in this skill (paths relative to this SKILL.md):
 
 | File | What it is |
 | --- | --- |
-| `assets/player.html` | Ready-made full-page player (play / seek / export / fullscreen): `player.html?otio=<url>`; `exportToFolder()` saves an export into the folder |
+| `assets/player.html` | Ready-made full-page player (play / seek / export / fullscreen): `player.html?otio=<url>`; `&timeline=1` adds the editor timeline under it; `exportToFolder()` saves an export into the folder |
 | `assets/example.otio` | Example timeline: remote video, local clip, logo overlay, titles, music |
-| `scripts/serve.py` | Local web server with Range + CORS, and `POST /exports/<name>` to save exports (Python 3, no dependencies) |
+| `scripts/serve.py` | Local web server with Range + CORS, and `POST /exports/<name>` to save exports and edited timelines (Python 3, no dependencies) |
 | `scripts/check_otio.py` | Validates a timeline and every media URL in it |
 | `scripts/prepare_transfer.py` | Builds an upload folder to recreate the edit as a Tellers project with the CLI |
 | `scripts/pull_from_tellers.py` | Downloads a Tellers project's media (original or player-compatible rendition) and rewrites its `.otio` to the local files |
@@ -124,6 +124,30 @@ Edit `timeline.otio` and re-run the check. Then refresh the player depending on 
 - **Different timeline** (switching to another `.otio`, another project, or starting a
   new edit): reload the page with the new `?otio=` URL, so the player starts fresh.
 
+#### Let the user edit on a timeline
+
+The timeline is optional. Open the player without it by default, and add it only when
+the user asks to see the timeline or to adjust the edit by hand (you can mention that it
+exists). Then open the page with `&timeline=1`:
+`http://localhost:8000/player.html?otio=timeline.otio&timeline=1`. The Tellers editor
+timeline (the one in the Tellers app) shows under the player and drives it: drag clips
+to move them, drag their ends to trim, S to split, ⌫ to delete, ⌘Z to undo, and a right
+click for text, effects, transitions, speed, gaps and compositions; clips can also be
+moved, scaled and cropped on the picture. `&timeline=view` shows it without editing
+(seek, zoom, select only).
+
+Every edit is saved (half a second after the last one) to `exports/<otio name>`, e.g.
+`exports/timeline.otio`; the original file is never overwritten. In the page,
+`window.timelineStatus` is `{ edits, state: "saving" | "saved" | "error", path }`.
+
+- Before you change `timeline.otio` yourself, take the user's edits in first, or
+  `ui.loadUrl` throws them away: if `exports/timeline.otio` exists (and
+  `timelineStatus.edits > 0`), `cp exports/timeline.otio timeline.otio`, then edit it.
+- Copy it back to the folder root, don't play it from `exports/`: its media URLs stay
+  relative to the page (`media/clip.mp4`), so `check_otio.py` reports them missing there.
+- After you edit `timeline.otio`, `await ui.loadUrl("timeline.otio")` as usual; the
+  timeline follows the player.
+
 The Export button in the
 player's control bar renders the timeline to MP4 in the browser and saves it through
 the browser's save dialog. Chrome or Edge give the best results; Safari and
@@ -217,6 +241,20 @@ it throws when mounted.
 uses) shows a small "Powered by Tellers" badge above the control bar; `{ variant: "view" }`
 (the default when the option is left out) shows a "View on Tellers.ai" button in the
 top-right corner; `{ projectId }` or `{ url }` sets where it links; `false` hides it.
+
+To add the editor timeline to your own page, mount it next to the player (the timeline's
+code loads on first use from the same place as `bundle.js`):
+
+```js
+const timeline = await TellersPlayerUI.mountTimeline(document.getElementById("timeline"), {
+  player: ui,
+  editable: true,                   // false: seek and select only
+  onChange: (otio) => save(otio),   // the whole timeline after every edit; the player already shows it
+});
+timeline.setEditable(false);        // lock or unlock it from the page; timeline.editable reads it
+```
+
+Give the timeline's container a height (about 240px or more).
 
 Other mount options: `playerOptions` (passed to the `VideoPlayer` constructor, e.g.
 `{ renderScale: "auto" }` for slow machines), `onFullscreenRequest`,

@@ -11,7 +11,8 @@ media types the player needs (.otio, .mov, .m4a, .wasm...).
 
 It also saves exports: `POST /exports/<name>` from a page on this machine writes
 the request body to `<folder>/exports/<name>` (export file types only), so the
-player can render with `ui.export({ save: "none" })` and hand the file over.
+player can render with `ui.export({ save: "none" })` and hand the file over. The
+timeline editor in player.html saves edited timelines there the same way (.otio).
 
 Usage:
     python3 serve.py [folder] [--port 8000] [--host 127.0.0.1]
@@ -60,7 +61,7 @@ LOOPBACK_ORIGIN_RE = re.compile(r"^https?://(localhost|127\.0\.0\.1|\[::1\])(:\d
 LOOPBACK_HOST_RE = re.compile(r"^(localhost|127\.0\.0\.1|\[::1\])(:\d+)?$")
 CHUNK = 1 << 20
 EXPORT_DIR = "exports"
-EXPORT_NAME_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._ -]{0,150}\.(mp4|webm|png|jpe?g|mp3|aac)$")
+EXPORT_NAME_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._ -]{0,150}\.(mp4|webm|png|jpe?g|mp3|aac|otio)$")
 
 
 class Handler(http.server.SimpleHTTPRequestHandler):
@@ -105,7 +106,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         path = self.path.split("?", 1)[0]
         name = urllib.parse.unquote(path[len(prefix):]) if path.startswith(prefix) else ""
         if not EXPORT_NAME_RE.match(name):
-            self.send_error(400, "POST to /exports/<name>.mp4 (or .webm .png .jpg .mp3 .aac)")
+            self.send_error(400, "POST to /exports/<name>.mp4 (or .webm .png .jpg .mp3 .aac .otio)")
             return
         try:
             length = int(self.headers.get("Content-Length", ""))
