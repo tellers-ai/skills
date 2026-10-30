@@ -14,11 +14,26 @@ https://github.com/user-attachments/assets/27b977aa-65b6-4704-99f5-a04dd79f8c7e
 
 | Skill | What the agent can do | Needs |
 | --- | --- | --- |
-| [`video-player`](plugins/video-player/skills/video-player/SKILL.md) | Build OTIO timelines from **local files or URLs** with cuts, layers, titles, effects and music. Preview on `localhost`, **export MP4** to the project folder, or move edits between your machine and Tellers with the CLI. | Python 3 + a browser (Chrome / Edge recommended). **No Tellers account.** |
+| [`video-player`](plugins/video-player/skills/video-player/SKILL.md) | Build OTIO timelines from **local files or URLs** with cuts, layers, titles, effects and music. Preview on `localhost`, edit alongside the assistant in a **full-featured editable timeline**, **export MP4** to the project folder, or move edits between your machine and Tellers with the CLI. | Python 3 + a browser (Chrome / Edge recommended). **No Tellers account.** |
 | [`tellers-mcp`](plugins/mcp/skills/tellers-mcp/SKILL.md) | Install the [Tellers MCP](https://mcp.tellers.ai/), edit cloud projects, search footage and transcripts, generate voice, music, images and video, and open a live preview. | A Tellers account (create one on the sign-in page). |
 
 Both use the same timeline format, documented in
 [`otio-format.md`](plugins/video-player/skills/video-player/references/otio-format.md).
+
+## Edit alongside your assistant
+
+The `video-player` skill includes the **full-featured Tellers editable timeline**,
+the same one used in the Tellers app. Ask your assistant to show the timeline to
+trim, split and move clips, edit titles, and adjust effects and transitions while
+the preview updates.
+
+Add **markers and notes at precise locations** in the timeline to guide the next
+edit. Press **M** to add a marker at the playhead, even during playback, then give
+it a name and note. Your edits and feedback are saved locally in OTIO so the
+assistant can pick them up and continue from your latest version.
+
+To open it yourself, add `&timeline=1` to the local player URL:
+`http://localhost:8000/player.html?otio=timeline.otio&timeline=1`.
 
 ## Install
 

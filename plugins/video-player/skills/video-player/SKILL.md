@@ -114,7 +114,27 @@ context, so prefer the computer's browser).
 
 ### 5. Iterate and export
 
-Edit `timeline.otio` and re-run the check. Then refresh the player depending on the change:
+#### Apply assistant edits directly to OTIO
+
+For an assistant-requested change, edit the `.otio` JSON directly: clip timing, text,
+transforms, effects, keyframes and markers all live in the timeline file. The player
+and editable timeline share that same edit.
+
+1. If the user has edited in the timeline, wait for `window.timelineStatus.state` to
+   be `"saved"` and copy its `path` (normally `exports/timeline.otio`) back to
+   `timeline.otio`. Check for saved edits before starting; if saving reports an
+   error, resolve it before replacing the loaded timeline.
+2. Read the latest OTIO, including marker names, comments and time ranges, then
+   apply the requested changes. Preserve unrelated user edits and stable ids. When
+   changing title text, update the clip's `name` too if it labels the old text.
+3. Run `check_otio.py` on the updated file.
+4. Refresh the existing player with `await ui.loadUrl("timeline.otio")`. The editor
+   timeline follows automatically. Check a frame at the changed time (step 6).
+
+For example, to change a title, update the Text generator's `parameters.text` in
+its clip's `media_references`, then validate and load the file as above.
+
+Choose the refresh method according to the change:
 
 - **Update to the same edit** (move, trim, retime, restyle, add or remove clips or
   text in this `timeline.otio`): don't reload. Call `await ui.loadUrl("timeline.otio")`
@@ -135,6 +155,12 @@ to move them, drag their ends to trim, S to split, ⌫ to delete, ⌘Z to undo, 
 click for text, effects, transitions, speed, gaps and compositions; clips can also be
 moved, scaled and cropped on the picture. `&timeline=view` shows it without editing
 (seek, zoom, select only).
+
+The user can edit alongside the assistant and leave feedback at precise timeline
+locations: add a marker at the playhead with M (also during playback), then add a
+name and note. These are OTIO markers with `name`, `comment` and `marked_range`;
+read them when continuing the edit so feedback stays tied to its intended time.
+See **Markers** in `references/otio-format.md`.
 
 Every edit is saved (half a second after the last one) to `exports/<otio name>`, e.g.
 `exports/timeline.otio`; the original file is never overwritten. In the page,
