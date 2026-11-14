@@ -89,7 +89,12 @@
               }
             },
             "active_media_reference_key": "DEFAULT_MEDIA",
-            "effects": []
+            "effects": [],
+            "metadata": {
+              "Resolve_OTIO": {
+                "Link Group ID": 1
+              }
+            }
           },
           {
             "OTIO_SCHEMA": "Clip.2",
@@ -115,7 +120,12 @@
               }
             },
             "active_media_reference_key": "DEFAULT_MEDIA",
-            "effects": []
+            "effects": [],
+            "metadata": {
+              "Resolve_OTIO": {
+                "Link Group ID": 2
+              }
+            }
           }
         ]
       },
@@ -148,7 +158,12 @@
               }
             },
             "active_media_reference_key": "DEFAULT_MEDIA",
-            "effects": []
+            "effects": [],
+            "metadata": {
+              "Resolve_OTIO": {
+                "Link Group ID": 1
+              }
+            }
           },
           {
             "OTIO_SCHEMA": "Clip.2",
@@ -174,7 +189,12 @@
               }
             },
             "active_media_reference_key": "DEFAULT_MEDIA",
-            "effects": []
+            "effects": [],
+            "metadata": {
+              "Resolve_OTIO": {
+                "Link Group ID": 2
+              }
+            }
           }
         ]
       },

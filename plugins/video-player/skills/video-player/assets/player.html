@@ -24,7 +24,9 @@
         ?otio=<url>      timeline to play (default: timeline.otio next to this page)
         ?title=<text>    title shown over the picture
         ?timeline=1      show the editor timeline under the player; every edit is saved
-                         to exports/<otio file name> (serve.py), never over the original
+                         to exports/<otio file name> (serve.py), never over the original;
+                         on reload, that saved edit opens if it is newer than the original
+        &restore=0       with ?timeline=1, open the original even if a newer saved edit exists
         ?timeline=view   the timeline without editing (seek, zoom, select)
         ?src=<url>       load bundle.js from elsewhere (a local or test build)
     -->
@@ -62,6 +64,25 @@
         }, 500);
       };
 
+      // Edits saved on an earlier visit: when exports/<otio name> is newer than the timeline
+      // file, open it instead, so reloading the page keeps them (and the next save builds on
+      // them). Once the timeline file is newer (edits copied back, or changed since), it wins.
+      const editable = Boolean(timelineMode) && timelineMode !== "0" && timelineMode !== "view";
+      const savedEdit = async () => {
+        if (params.get("restore") === "0") return null;
+        try {
+          const [saved, original] = await Promise.all([
+            fetch(`/exports/${encodeURIComponent(editedName)}`, { cache: "no-store" }),
+            fetch(otioUrl, { method: "HEAD", cache: "no-store" }),
+          ]);
+          const savedTime = Date.parse(saved.headers.get("Last-Modified"));
+          const originalTime = Date.parse(original.headers.get("Last-Modified"));
+          return saved.ok && savedTime > originalTime ? await saved.json() : null;
+        } catch {
+          return null;
+        }
+      };
+
       if (location.protocol === "file:") {
         fail("Open this page through a local server, not as a file: " +
           "<code>python3 serve.py .</code> then <code>http://localhost:8000/player.html</code>.");
@@ -69,18 +90,19 @@
         const script = document.createElement("script");
         script.src = params.get("src") || PLAYER_URL;
         script.onload = async () => {
+          const restored = editable ? await savedEdit() : null;
           window.ui = TellersPlayerUI.mount(container, {
-            otioUrl,
+            ...(restored ? { otio: restored } : { otioUrl }),
             title: params.get("title") || undefined,
             tellersLink: { variant: "powered" },
             export: { format: "mp4", resolution: 1080, save: "picker" },
           });
           if (timelineMode && timelineMode !== "0") {
             document.body.classList.add("with-timeline");
-            window.timelineStatus = { edits: 0, state: "unchanged", path: `exports/${editedName}` };
+            window.timelineStatus = { edits: 0, state: restored ? "restored" : "unchanged", path: `exports/${editedName}` };
             window.timeline = await TellersPlayerUI.mountTimeline(document.getElementById("timeline"), {
               player: window.ui,
-              editable: timelineMode !== "view",
+              editable,
               onChange: saveEdit,
             });
           }
