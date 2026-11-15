@@ -250,10 +250,10 @@ stack** `tracks` (applies to the whole composited picture / mix):
 ]
 ```
 
-- **`effect_name`: write the bare name** (`"Blur"`). tellers-timeline names its effects
-  `tellers.ai.Blur`, but the player matches the bare name only (as of 2026-10-19), and
-  tellers-timeline reads the bare name and adds the prefix when it next writes the
-  effect. A prefixed or unknown name is silently skipped by the player.
+- **`effect_name`**: the bare name (`"Blur"`) or the prefixed one (`"tellers.ai.Blur"`);
+  the player and tellers-timeline read both. The editor timeline and Tellers write the
+  prefixed name, so effects added by hand come back as `tellers.ai.<Effect>`: leave
+  them as they are. An unknown name is silently skipped by the player.
 - `enabled: false` turns an effect off without removing it; absent means on.
 - `name` is a free display label.
 - Parameters live under `metadata["tellers.ai"].parameters`. A missing parameter takes
