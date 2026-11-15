@@ -11,8 +11,7 @@ Usage:
 Reports JSON errors, missing source ranges, unknown track kinds, local media
 that does not exist under the root, local paths the browser cannot read, and
 remote media that does not answer or does not send CORS headers, and effects
-the player would skip (unknown or `tellers.ai.`-prefixed names, see
-references/otio-format.md, Effects).
+the player would skip (unknown names, see references/otio-format.md, Effects).
 Prints the timeline duration and a one-line summary per track.
 Exit code 1 when an error was found. Standard library only.
 """
@@ -44,7 +43,7 @@ UNSUPPORTED_EXT = {
     ".wma": "WMA is not supported; convert to .m4a or .mp3",
 }
 
-# Effect names the player renders (tellers-timeline's EFFECT_SPECS, bare).
+# Effect names the player renders (tellers-timeline's EFFECT_SPECS), bare or `tellers.ai.`-prefixed.
 TELLERS_EFFECTS = {
     "Transform", "Blur", "Pixelate", "Adjustment", "ColorMatrix", "HslAdjustment", "Noise",
     "RGBSplit", "ZoomBlur", "DropShadow", "ChromaKey", "Border", "MotionBlur", "Blend", "Mask",
@@ -68,10 +67,11 @@ def check_effects(effects, where):
             resolve = (effect.get("metadata") or {}).get("Resolve_OTIO") or {}
             if resolve.get("Effect Name") not in RESOLVE_EFFECTS:
                 warnings.append(f"{where}: Resolve effect {resolve.get('Effect Name')!r} is ignored by the player")
-        elif name.startswith("tellers.ai.") and name[len("tellers.ai."):] in TELLERS_EFFECTS:
-            warnings.append(f"{where}: write effect_name {name[len('tellers.ai.'):]!r}; the player skips {name!r}")
-        elif name not in TELLERS_EFFECTS:
-            warnings.append(f"{where}: unknown effect {name!r} is ignored by the player")
+            continue
+        # The player reads both `Blur` and `tellers.ai.Blur` (what its editor timeline writes).
+        written, name = name, name[len("tellers.ai."):] if name.startswith("tellers.ai.") else name
+        if name not in TELLERS_EFFECTS:
+            warnings.append(f"{where}: unknown effect {written!r} is ignored by the player")
         elif name == "ColorLut":
             tellers = (effect.get("metadata") or {}).get("tellers.ai") or {}
             if not tellers.get("cube_url"):

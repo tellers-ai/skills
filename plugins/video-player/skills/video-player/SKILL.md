@@ -68,7 +68,9 @@ Read `references/otio-format.md`, then write `timeline.otio` (JSON). Start from
 - Do not use rich text (HTML or styled markup) in text clips. It renders, locally and
   in the app, but it is slower to show. Write plain text only.
 - Sound comes only from `audio` tracks. To keep a video's own sound, put the same
-  file with the same `source_range` on an audio track.
+  file with the same `source_range` on an audio track, and give both clips the same
+  `metadata.Resolve_OTIO."Link Group ID"` (a number per pair) so a move or trim in the
+  editor timeline changes both; without it, the sound stays where it was.
 - `target_url` is either relative to the page (`media/clip.mp4`) or an absolute
   `https://` URL to the media file itself, served with CORS.
 - Supported files (details in `references/otio-format.md`, Supported files): video
@@ -164,7 +166,11 @@ See **Markers** in `references/otio-format.md`.
 
 Every edit is saved (half a second after the last one) to `exports/<otio name>`, e.g.
 `exports/timeline.otio`; the original file is never overwritten. In the page,
-`window.timelineStatus` is `{ edits, state: "saving" | "saved" | "error", path }`.
+`window.timelineStatus` is `{ edits, state: "restored" | "saving" | "saved" | "error", path }`.
+Reloading the page keeps the user's edits: when `exports/timeline.otio` is newer than
+`timeline.otio`, the page opens it instead (`state: "restored"`); `&restore=0` opens the
+original anyway. Once `timeline.otio` is newer (you copied the edits back, or changed it),
+the page opens `timeline.otio`.
 
 - Before you change `timeline.otio` yourself, take the user's edits in first, or
   `ui.loadUrl` throws them away: if `exports/timeline.otio` exists (and
