@@ -1,7 +1,7 @@
 {
   "name": "video-player",
-  "version": "0.1.0",
-  "description": "Build a Tellers OTIO timeline from local files or URLs, embed the single-file Tellers player in HTML and preview and export it on localhost.",
+  "version": "0.1.1",
+  "description": "Build, recreate and edit videos as Tellers OTIO timelines. Analyze reference videos, rebuild editable layers, then preview and export locally.",
   "author": {
     "name": "Tellers",
     "url": "https://tellers.ai"

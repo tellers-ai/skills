@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tellers Recreate Video"
+  short_description: "Rebuild reference videos as editable Tellers timelines"
+  default_prompt: "Use $tellers-recreate-video to recreate this video as an editable Tellers timeline."

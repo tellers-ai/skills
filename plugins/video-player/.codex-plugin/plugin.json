@@ -1,22 +1,35 @@
 {
   "name": "video-player",
-  "version": "0.1.0",
-  "description": "Build a Tellers OTIO timeline from local files or URLs, preview it on localhost with the Tellers player, and transfer it to Tellers with the CLI.",
-  "author": { "name": "Tellers", "url": "https://tellers.ai" },
+  "version": "0.1.1",
+  "description": "Build, recreate and edit videos as Tellers OTIO timelines. Analyze reference videos, rebuild editable layers, then preview and export locally.",
+  "author": {
+    "name": "Tellers",
+    "url": "https://tellers.ai"
+  },
   "homepage": "https://github.com/tellers-ai/skills",
   "repository": "https://github.com/tellers-ai/skills",
-  "keywords": ["video", "otio", "timeline", "player", "tellers"],
+  "keywords": [
+    "video",
+    "otio",
+    "timeline",
+    "player",
+    "tellers"
+  ],
   "skills": "./skills/",
   "interface": {
     "displayName": "Tellers Video Player",
     "shortDescription": "Edit and preview video locally with the Tellers player",
     "developerName": "Tellers",
     "category": "Productivity",
-    "capabilities": ["Read", "Write"],
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
     "websiteURL": "https://tellers.ai",
     "defaultPrompt": [
       "Make a 30 second montage from the videos in this folder",
-      "Play this .otio file in the Tellers player"
+      "Play this .otio file in the Tellers player",
+      "Recreate this reference video as an editable Tellers timeline"
     ]
   }
 }

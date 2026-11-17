@@ -15,9 +15,10 @@ https://github.com/user-attachments/assets/27b977aa-65b6-4704-99f5-a04dd79f8c7e
 | Skill | What the agent can do | Needs |
 | --- | --- | --- |
 | [`video-player`](plugins/video-player/skills/video-player/SKILL.md) | Build OTIO timelines from **local files or URLs** with cuts, layers, titles, effects and music. Preview on `localhost`, edit alongside the assistant in a **full-featured editable timeline**, **export MP4** to the project folder, or move edits between your machine and Tellers with the CLI. | Python 3 + a browser (Chrome / Edge recommended). **No Tellers account.** |
+| [`tellers-recreate-video`](plugins/video-player/skills/tellers-recreate-video/SKILL.md) | Analyze a reference video and rebuild its cuts, titles, graphics and motion as an **editable Tellers timeline**. Includes local frame inspection and comparison helpers; preserves usable footage and optionally generates missing media through Tellers. | `video-player`, a vision-capable agent, Python 3, FFmpeg/ffprobe, Pillow and NumPy. **No generation API required for local reconstruction.** |
 | [`tellers-mcp`](plugins/mcp/skills/tellers-mcp/SKILL.md) | Install the [Tellers MCP](https://mcp.tellers.ai/), edit cloud projects, search footage and transcripts, generate voice, music, images and video, and open a live preview. | A Tellers account (create one on the sign-in page). |
 
-Both use the same timeline format, documented in
+These skills use the same timeline format, documented in
 [`otio-format.md`](plugins/video-player/skills/video-player/references/otio-format.md).
 
 ## Edit alongside your assistant
@@ -81,6 +82,7 @@ Copy a skill folder into your skills directory: `~/.claude/skills/` for Claude C
 
 ```bash
 cp -R plugins/video-player/skills/video-player ~/.agents/skills/
+cp -R plugins/video-player/skills/tellers-recreate-video ~/.agents/skills/
 cp -R plugins/mcp/skills/tellers-mcp ~/.agents/skills/
 ```
 
@@ -94,6 +96,10 @@ For claude.ai / Claude Desktop, zip a skill folder and upload it under
 .agents/plugins/marketplace.json    Codex marketplace
 plugins/
   video-player/
+    skills/tellers-recreate-video/
+      SKILL.md                      reference video -> editable Tellers reconstruction
+      references/                   analysis, Tellers mappings, optional generation
+      scripts/reference_video.py    local probe, cut candidates, frame sheets, comparisons
     skills/video-player/
       SKILL.md
       references/otio-format.md      timeline format
